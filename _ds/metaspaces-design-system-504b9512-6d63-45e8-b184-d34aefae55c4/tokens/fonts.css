@@ -1,0 +1,6 @@
+/* Metaspaces type is served from Google Fonts.
+   No licensed binaries were available from metaspaces.in, so the families are
+   linked rather than self-hosted. Drop .woff2 files in assets/fonts/ and swap
+   these @import lines for real @font-face rules when the originals arrive. */
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap");

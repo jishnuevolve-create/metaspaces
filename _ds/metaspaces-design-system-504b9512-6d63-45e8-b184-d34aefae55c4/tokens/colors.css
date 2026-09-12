@@ -1,0 +1,53 @@
+:root{
+/* ---- base palette ---- */
+--ink-900:#1F2024;        /* brand anchor: headlines, header, footer */
+--ink-700:#34363C;
+--ink-500:#6B6B6F;        /* muted body + secondary labels */
+--ink-300:#9B9BA1;
+--ink-200:#D8D5D0;        /* hairline borders on warm ground */
+--ink-100:#EDEAE5;
+
+--paper-000:#FFFFFF;      /* card surface */
+--paper-050:#FAF8F5;      /* warm off-white page ground */
+--paper-100:#F4F0EA;      /* alternating band / inset */
+
+--terracotta-700:#9C4E22;
+--terracotta-600:#C1622D; /* ACCENT — CTA, badges, active states */
+--terracotta-500:#D4794A;
+--terracotta-100:#F6E7DC;
+--terracotta-050:#FBF3ED;
+
+--gold-600:#B8935A;       /* ratings, offer flags, premium flourishes */
+--gold-100:#F3EADB;
+--olive-600:#6B7654;      /* success / "transparent quote" positives */
+--olive-100:#E7EBE1;
+--red-600:#B4432F;        /* form errors */
+
+/* ---- semantic aliases ---- */
+--text-heading:var(--ink-900);
+--text-body:var(--ink-500);
+--text-strong:var(--ink-700);
+--text-invert:var(--paper-000);
+--text-accent:var(--terracotta-600);
+--text-link:var(--terracotta-600);
+--text-link-hover:var(--terracotta-700);
+
+--surface-page:var(--paper-050);
+--surface-card:var(--paper-000);
+--surface-inset:var(--paper-100);
+--surface-ink:var(--ink-900);
+--surface-accent:var(--terracotta-600);
+--surface-accent-soft:var(--terracotta-050);
+--surface-gold-soft:var(--gold-100);
+--surface-success-soft:var(--olive-100);
+
+--border-hairline:var(--ink-200);
+--border-soft:var(--ink-100);
+--border-accent:var(--terracotta-600);
+
+--focus-ring:var(--terracotta-600);
+--star:var(--gold-600);
+
+--overlay-photo:linear-gradient(180deg,rgba(31,32,36,0) 38%,rgba(31,32,36,.62) 100%); /* @kind color */
+--overlay-scrim:rgba(31,32,36,.55);
+}

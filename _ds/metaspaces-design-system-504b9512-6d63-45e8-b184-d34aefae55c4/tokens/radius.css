@@ -1,0 +1,8 @@
+:root{
+--radius-xs:6px;
+--radius-sm:10px;
+--radius-md:16px;      /* inputs, small cards */
+--radius-lg:24px;      /* cards */
+--radius-xl:32px;      /* hero image, feature panels */
+--radius-pill:999px;   /* every button and chip */
+}
