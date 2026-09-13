@@ -295,7 +295,8 @@ button{font-family:inherit}
           <div class="field-row">
             <div class="field">
               <label for="f-phone">Phone <span class="req">*</span></label>
-              <input id="f-phone" name="phone" type="tel" placeholder="10-digit mobile number" required>
+              <input id="f-phone" name="phone" type="tel" inputmode="numeric" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" required>
+              <span id="phone-error" class="hint" style="color:var(--red-600);display:none;">Enter a valid 10-digit mobile number.</span>
             </div>
             <div class="field">
               <label for="f-email">Email (optional)</label>
@@ -678,8 +679,22 @@ button{font-family:inherit}
   const localityEl = document.getElementById('f-locality');
   const localityList = document.getElementById('locality-list');
   const submitBtn = document.getElementById('lead-submit');
+  const phoneErrorEl = document.getElementById('phone-error');
 
   let locality = '';
+
+  function isValidPhone(v){
+    return /^[6-9][0-9]{9}$/.test(v);
+  }
+
+  phoneEl.addEventListener('input', () => {
+    const digitsOnly = phoneEl.value.replace(/\D/g, '').slice(0, 10);
+    if (phoneEl.value !== digitsOnly) {
+      phoneEl.value = digitsOnly;
+      phoneEl.setSelectionRange(digitsOnly.length, digitsOnly.length);
+    }
+    phoneErrorEl.style.display = (digitsOnly.length === 10 && !isValidPhone(digitsOnly)) ? 'block' : 'none';
+  });
 
   function renderLocalityList(query){
     const q = query.trim().toLowerCase();
@@ -704,7 +719,7 @@ button{font-family:inherit}
   });
 
   function checkValid(){
-    const phoneOk = phoneEl.value.replace(/\D/g,'').length >= 10;
+    const phoneOk = isValidPhone(phoneEl.value);
     const ok = nameEl.value.trim().length > 1 && phoneOk && !!serviceEl.value && !!propertyEl.value && !!locality;
     submitBtn.disabled = !ok;
     return ok;
