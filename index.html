@@ -299,8 +299,8 @@ button{font-family:inherit}
               <span id="phone-error" class="hint" style="color:var(--red-600);display:none;">Enter a valid 10-digit mobile number.</span>
             </div>
             <div class="field">
-              <label for="f-email">Email</label>
-              <input id="f-email" name="email" type="email" placeholder="you@email.com">
+              <label for="f-email">Email <span class="req">*</span></label>
+              <input id="f-email" name="email" type="email" placeholder="you@email.com" required>
             </div>
           </div>
           <div class="field-row">
@@ -718,14 +718,19 @@ button{font-family:inherit}
     if (!e.target.closest('.autocomplete')) localityList.classList.remove('open');
   });
 
+  function isValidEmail(v){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  }
+
   function checkValid(){
     const phoneOk = isValidPhone(phoneEl.value);
-    const ok = nameEl.value.trim().length > 1 && phoneOk && !!serviceEl.value && !!propertyEl.value && !!locality;
+    const emailOk = isValidEmail(emailEl.value);
+    const ok = nameEl.value.trim().length > 1 && phoneOk && emailOk && !!serviceEl.value && !!propertyEl.value && !!locality;
     submitBtn.disabled = !ok;
     return ok;
   }
 
-  [nameEl, phoneEl, serviceEl, propertyEl].forEach(el => el.addEventListener('input', checkValid));
+  [nameEl, phoneEl, emailEl, serviceEl, propertyEl].forEach(el => el.addEventListener('input', checkValid));
   [serviceEl, propertyEl].forEach(el => el.addEventListener('change', checkValid));
 
   form.addEventListener('submit', function(e){
