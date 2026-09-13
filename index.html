@@ -345,8 +345,7 @@ button{font-family:inherit}
         </span>
         <h3>Thank you — we have your details.</h3>
         <p id="done-summary"></p>
-        <p class="small">A design expert will call you within one business day. Prefer to chat now?</p>
-        <a id="done-wa-link" class="btn btn-primary btn-md btn-full" href="#" target="_blank" rel="noopener">Continue on WhatsApp</a>
+        <p class="small">A design expert will call you within one business day.</p>
         <p class="fine-print">We'll respond within one business day. By submitting, you agree to be contacted by Metaspaces.</p>
       </div>
     </div>
@@ -714,22 +713,9 @@ button{font-family:inherit}
   [nameEl, phoneEl, serviceEl, propertyEl].forEach(el => el.addEventListener('input', checkValid));
   [serviceEl, propertyEl].forEach(el => el.addEventListener('change', checkValid));
 
-  function buildWaHref(){
-    const msg = "Hi Metaspaces, I'd like a free consultation." +
-      (serviceEl.value ? "\nService: " + serviceEl.value : "") +
-      (propertyEl.value ? "\nProperty: " + propertyEl.value : "") +
-      (locality ? "\nLocality: " + locality : "") +
-      (nameEl.value ? "\nName: " + nameEl.value : "") +
-      (phoneEl.value ? "\nPhone: " + phoneEl.value : "") +
-      (emailEl.value ? "\nEmail: " + emailEl.value : "");
-    return "https://wa.me/918618008947?text=" + encodeURIComponent(msg);
-  }
-
   form.addEventListener('submit', function(e){
     e.preventDefault();
     if (!checkValid()) return;
-    const waHref = buildWaHref();
-    window.open(waHref, '_blank', 'noopener');
 
     supabase.from('leads').insert({
       name: nameEl.value.trim(),
@@ -747,7 +733,6 @@ button{font-family:inherit}
     doneView.style.display = 'flex';
     document.getElementById('done-summary').textContent =
       [serviceEl.value, propertyEl.value, locality].filter(Boolean).join(' · ') + (nameEl.value ? ' — ' + nameEl.value : '');
-    document.getElementById('done-wa-link').href = waHref;
   });
 })();
 </script>
