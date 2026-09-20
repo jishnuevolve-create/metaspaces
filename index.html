@@ -813,6 +813,23 @@ button{font-family:inherit}
     doneView.style.display = 'flex';
     document.getElementById('done-summary').textContent =
       [serviceEl.value, propertyEl.value, locality].filter(Boolean).join(' · ') + (nameEl.value ? ' — ' + nameEl.value : '');
+
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('thank_you', '1');
+      window.history.pushState({ thankYou: true }, '', url.toString());
+    } catch (err) {
+      console.error('Could not update URL for conversion tracking:', err);
+    }
+  });
+
+  window.addEventListener('popstate', () => {
+    const hasThankYou = new URL(window.location.href).searchParams.get('thank_you') === '1';
+    const isShowingDone = document.getElementById('lead-done-view').style.display !== 'none';
+    if (!hasThankYou && isShowingDone) {
+      document.getElementById('lead-done-view').style.display = 'none';
+      document.getElementById('lead-form-view').style.display = '';
+    }
   });
 })();
 </script>
