@@ -1,0 +1,5 @@
+# Serve index.html for the /thank-you URL so it doesn't 404 on direct
+# visits, refreshes, or when Google Ads' tracking verifies the URL.
+RewriteEngine On
+RewriteBase /
+RewriteRule ^thank-you/?$ index.html [L]

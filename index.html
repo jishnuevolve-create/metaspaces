@@ -816,7 +816,7 @@ button{font-family:inherit}
 
     try {
       const url = new URL(window.location.href);
-      url.searchParams.set('thank_you', '1');
+      url.pathname = '/thank-you';
       window.history.pushState({ thankYou: true }, '', url.toString());
     } catch (err) {
       console.error('Could not update URL for conversion tracking:', err);
@@ -824,9 +824,9 @@ button{font-family:inherit}
   });
 
   window.addEventListener('popstate', () => {
-    const hasThankYou = new URL(window.location.href).searchParams.get('thank_you') === '1';
+    const isThankYouUrl = window.location.pathname.replace(/\/$/, '') === '/thank-you';
     const isShowingDone = document.getElementById('lead-done-view').style.display !== 'none';
-    if (!hasThankYou && isShowingDone) {
+    if (!isThankYouUrl && isShowingDone) {
       document.getElementById('lead-done-view').style.display = 'none';
       document.getElementById('lead-form-view').style.display = '';
     }
