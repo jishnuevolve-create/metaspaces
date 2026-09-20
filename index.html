@@ -306,6 +306,32 @@ button{font-family:inherit}
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
+<script>
+(function(){
+  var STORAGE_KEY = 'ms_ad_tracking';
+  var TRACKED_PARAMS = ['gclid', 'gbraid', 'wbraid', 'utm_campaign', 'utm_term'];
+
+  var params = new URLSearchParams(window.location.search);
+  var stored = {};
+  try { stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) { stored = {}; }
+
+  var changed = false;
+  TRACKED_PARAMS.forEach(function(key){
+    var val = params.get(key);
+    if (val) {
+      if (stored[key] !== val) changed = true;
+      stored[key] = val;
+    }
+    // if the param is missing or empty, leave any previously stored value untouched
+  });
+
+  if (changed) {
+    stored.timestamp = new Date().toISOString();
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(stored)); } catch (e) {}
+  }
+})();
+</script>
+
 <header class="site-header">
   <div class="wrap">
     <img src="images/logo.png" alt="Metaspaces Interiors" class="site-logo" style="height:34px;width:auto;">
@@ -805,13 +831,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     e.preventDefault();
     if (!checkValid()) return;
 
+    let adTracking = {};
+    try { adTracking = JSON.parse(localStorage.getItem('ms_ad_tracking') || '{}'); } catch (err) { adTracking = {}; }
+
     const leadData = {
       name: nameEl.value.trim(),
       phone: phoneEl.value.trim(),
       email: emailEl.value.trim() || null,
       service: serviceEl.value,
       property_type: propertyEl.value,
-      locality: locality
+      locality: locality,
+      gclid: adTracking.gclid || null,
+      gbraid: adTracking.gbraid || null,
+      wbraid: adTracking.wbraid || null,
+      utm_campaign: adTracking.utm_campaign || null,
+      utm_term: adTracking.utm_term || null,
+      landing_url: window.location.href
     };
 
     submitErrorEl.style.display = 'none';
