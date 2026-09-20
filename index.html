@@ -737,15 +737,21 @@ button{font-family:inherit}
     e.preventDefault();
     if (!checkValid()) return;
 
-    supabase.from('leads').insert({
+    const leadData = {
       name: nameEl.value.trim(),
       phone: phoneEl.value.trim(),
       email: emailEl.value.trim() || null,
       service: serviceEl.value,
       property_type: propertyEl.value,
       locality: locality
-    }).then(({ error }) => {
+    };
+
+    supabase.from('leads').insert(leadData).then(({ error }) => {
       if (error) console.error('Lead insert failed:', error);
+    });
+
+    supabase.functions.invoke('send-lead-email', { body: leadData }).then(({ error }) => {
+      if (error) console.error('Lead email notification failed:', error);
     });
 
     document.getElementById('lead-form-view').style.display = 'none';
