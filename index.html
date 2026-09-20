@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TSRJ275V');</script>
+<!-- End Google Tag Manager -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Metaspaces Interiors — Home Interiors in Bangalore</title>
@@ -294,6 +301,10 @@ button{font-family:inherit}
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSRJ275V"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <header class="site-header">
   <div class="wrap">
@@ -390,6 +401,7 @@ button{font-family:inherit}
             <span class="hint">We serve 20+ localities across Bangalore.</span>
           </div>
           <button type="submit" id="lead-submit" class="btn btn-primary btn-lg btn-full" disabled>Book Free Consultation</button>
+          <p id="submit-error" class="hint" style="color:var(--red-600);display:none;">Something went wrong submitting your details. Please try again.</p>
         </form>
         <p class="fine-print" style="margin-top:14px;">We'll respond within one business day. By submitting, you agree to be contacted by Metaspaces.</p>
       </div>
@@ -787,7 +799,9 @@ button{font-family:inherit}
   [nameEl, phoneEl, emailEl, serviceEl, propertyEl].forEach(el => el.addEventListener('input', checkValid));
   [serviceEl, propertyEl].forEach(el => el.addEventListener('change', checkValid));
 
-  form.addEventListener('submit', function(e){
+  const submitErrorEl = document.getElementById('submit-error');
+
+  form.addEventListener('submit', async function(e){
     e.preventDefault();
     if (!checkValid()) return;
 
@@ -800,9 +814,17 @@ button{font-family:inherit}
       locality: locality
     };
 
-    supabase.from('leads').insert(leadData).then(({ error }) => {
-      if (error) console.error('Lead insert failed:', error);
-    });
+    submitErrorEl.style.display = 'none';
+    submitBtn.disabled = true;
+
+    const { error } = await supabase.from('leads').insert(leadData);
+
+    if (error) {
+      console.error('Lead insert failed:', error);
+      submitErrorEl.style.display = 'block';
+      submitBtn.disabled = false;
+      return;
+    }
 
     supabase.functions.invoke('send-lead-email', { body: leadData }).then(({ error }) => {
       if (error) console.error('Lead email notification failed:', error);
@@ -821,6 +843,9 @@ button{font-family:inherit}
     } catch (err) {
       console.error('Could not update URL for conversion tracking:', err);
     }
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'lead_form_submit' });
   });
 
   window.addEventListener('popstate', () => {
