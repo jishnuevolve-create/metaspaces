@@ -881,6 +881,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: 'lead_form_submit' });
+
+    // Suppress whatsapp_click tracking during and for 10s after a successful
+    // submission, so any WhatsApp redirect tied to the lead flow itself
+    // isn't double-counted as a separate ad-click event.
+    window.__leadSubmitting = true;
+    setTimeout(() => { window.__leadSubmitting = false; }, 10000);
   });
 
   window.addEventListener('popstate', () => {
@@ -991,6 +997,81 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }
     });
   });
+})();
+</script>
+
+<script>
+(function(){
+  var DEDUPE_WINDOW_MS = 10000;
+  var CONFIRM_WINDOW_MS = 3000;
+  var lastPushedAt = {};
+
+  function pushEvent(eventName, location){
+    var now = Date.now();
+    if (lastPushedAt[eventName] && (now - lastPushedAt[eventName]) < DEDUPE_WINDOW_MS) return;
+    lastPushedAt[eventName] = now;
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: eventName, click_location: location });
+  }
+
+  function isFixedOrSticky(el){
+    var node = el;
+    while (node && node !== document.body && node !== document.documentElement) {
+      var pos = window.getComputedStyle(node).position;
+      if (pos === 'fixed' || pos === 'sticky') return true;
+      node = node.parentElement;
+    }
+    return false;
+  }
+
+  function getClickLocation(el){
+    if (el.closest('header')) return 'header';
+    if (el.closest('footer')) return 'footer';
+    if (el.closest('.hero')) return 'hero';
+    if (isFixedOrSticky(el)) return 'floating';
+    return 'other';
+  }
+
+  function armConfirmation(eventName, location){
+    var timeoutId = setTimeout(cleanup, CONFIRM_WINDOW_MS);
+
+    function onSignal(){
+      cleanup();
+      pushEvent(eventName, location);
+    }
+    function onVisibilityChange(){
+      if (document.hidden) onSignal();
+    }
+    function cleanup(){
+      clearTimeout(timeoutId);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      window.removeEventListener('blur', onSignal);
+      window.removeEventListener('pagehide', onSignal);
+    }
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    window.addEventListener('blur', onSignal);
+    window.addEventListener('pagehide', onSignal);
+  }
+
+  document.addEventListener('click', function(e){
+    if (!e.isTrusted) return;
+
+    var target = e.target;
+    if (!target || !target.closest) return;
+
+    var waEl = target.closest('a[href*="wa.me"], a[href*="api.whatsapp.com"], [data-whatsapp-trigger]');
+    var callEl = target.closest('a[href^="tel:"], [data-call-trigger]');
+
+    var el = waEl || callEl;
+    if (!el) return;
+    var eventName = waEl ? 'whatsapp_click' : 'call_click';
+
+    if (eventName === 'whatsapp_click' && window.__leadSubmitting) return;
+
+    var location = getClickLocation(el);
+    armConfirmation(eventName, location);
+  }, true);
 })();
 </script>
 
