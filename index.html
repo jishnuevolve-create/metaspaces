@@ -71,7 +71,8 @@ button{font-family:inherit}
 
 .wrap{max-width:1200px;margin:0 auto;padding-left:clamp(20px,4vw,48px);padding-right:clamp(20px,4vw,48px)}
 .eyebrow{font-size:var(--fs-eyebrow);font-weight:var(--fw-bold);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-accent)}
-.card{background:var(--surface-card);border:1px solid var(--border-soft);border-radius:var(--radius-lg);box-shadow:var(--shadow-card)}
+.card{background:var(--surface-card);border:1px solid var(--border-soft);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);transition:transform .3s var(--ease-out),box-shadow .3s var(--ease-out)}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shadow-card-hover)}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius-pill);font-weight:var(--fw-bold);text-decoration:none;cursor:pointer;border:none;transition:transform var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out)}
@@ -84,12 +85,15 @@ button{font-family:inherit}
 .btn-md{padding:13px 26px;font-size:15px}
 .btn-lg{padding:16px 30px;font-size:16px}
 .btn-full{width:100%}
+.btn:active{transform:scale(.96)}
 
-.chip{display:inline-flex;align-items:center;padding:9px 18px;border-radius:var(--radius-pill);background:var(--surface-card);border:1px solid var(--border-soft);color:var(--text-strong);font-size:14px;font-weight:var(--fw-semibold);transition:border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out)}
-.chip:hover{border-color:var(--border-accent);color:var(--text-accent)}
+.chip{display:inline-flex;align-items:center;padding:9px 18px;border-radius:var(--radius-pill);background:var(--surface-card);border:1px solid var(--border-soft);color:var(--text-strong);font-size:14px;font-weight:var(--fw-semibold);transition:border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out)}
+.chip:hover{border-color:var(--border-accent);color:var(--text-accent);transform:translateY(-2px)}
+.chip:active{transform:translateY(0) scale(.96)}
 
 /* header */
-.site-header{position:sticky;top:0;z-index:60;background:rgba(250,248,245,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft)}
+.site-header{position:sticky;top:0;z-index:60;background:rgba(250,248,245,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);box-shadow:0 0 0 rgba(31,32,36,0);transition:box-shadow .3s var(--ease-out)}
+.site-header.is-scrolled{box-shadow:0 6px 24px rgba(31,32,36,.08)}
 .site-header .wrap{padding-top:14px;padding-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:20px}
 .phone-link{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:var(--fw-bold);color:var(--text-heading);text-decoration:none}
 .header-actions{display:flex;align-items:center;gap:14px}
@@ -126,10 +130,10 @@ button{font-family:inherit}
 .field input:focus,.field select:focus{border-color:var(--border-accent);box-shadow:var(--ring-focus)}
 .field input::placeholder{color:var(--ink-300)}
 .autocomplete{position:relative}
-.autocomplete-list{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--surface-card);border:1px solid var(--border-soft);border-radius:var(--radius-md);box-shadow:var(--shadow-card-hover);max-height:220px;overflow-y:auto;z-index:20;display:none}
-.autocomplete-list.open{display:block}
-.autocomplete-list button{display:block;width:100%;text-align:left;padding:10px 16px;background:none;border:none;font-size:14px;color:var(--text-strong);cursor:pointer}
-.autocomplete-list button:hover{background:var(--surface-inset)}
+.autocomplete-list{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--surface-card);border:1px solid var(--border-soft);border-radius:var(--radius-md);box-shadow:var(--shadow-card-hover);max-height:220px;overflow-y:auto;z-index:20;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .18s var(--ease-out),transform .18s var(--ease-out)}
+.autocomplete-list.open{opacity:1;transform:translateY(0);pointer-events:auto}
+.autocomplete-list button{display:block;width:100%;text-align:left;padding:10px 16px;background:none;border:none;font-size:14px;color:var(--text-strong);cursor:pointer;transition:background var(--dur-fast) var(--ease-out),padding-left var(--dur-fast) var(--ease-out)}
+.autocomplete-list button:hover{background:var(--surface-inset);padding-left:20px}
 .fine-print{font-size:12px;line-height:1.6;color:var(--ink-300)}
 .success-icon{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:999px;background:var(--olive-100);color:var(--olive-600)}
 .done-panel{display:flex;flex-direction:column;gap:14px;padding:6px 0 2px}
@@ -161,7 +165,8 @@ button{font-family:inherit}
 /* services */
 .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:24px}
 .service-card{overflow:hidden;display:flex;flex-direction:column}
-.service-card img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.service-card img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .5s var(--ease-out)}
+.service-card:hover img{transform:scale(1.06)}
 .service-card-body{padding:22px 22px 24px;display:flex;flex-direction:column;gap:10px}
 .service-card p{font-size:14px;line-height:1.65;color:var(--text-body)}
 .service-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:var(--fw-bold);color:var(--text-accent);margin-top:6px}
@@ -179,7 +184,9 @@ button{font-family:inherit}
 .gallery-head h2{color:#fff;font-size:var(--fs-h2)}
 .gallery-head .eyebrow{color:var(--amber)}
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}
-.gallery-grid img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:var(--radius-lg)}
+.gallery-item{overflow:hidden;border-radius:var(--radius-lg)}
+.gallery-item img{width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform .5s var(--ease-out)}
+.gallery-item:hover img{transform:scale(1.08)}
 
 /* testimonials */
 .testimonial-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:22px}
@@ -234,8 +241,26 @@ button{font-family:inherit}
 .sticky-contact{position:fixed;right:18px;bottom:18px;z-index:80;display:flex;flex-direction:column;gap:10px}
 .sticky-btn{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:999px;box-shadow:var(--shadow-float);text-decoration:none;transition:transform var(--dur-fast) var(--ease-out)}
 .sticky-btn:hover{transform:translateY(-3px)}
-.sticky-wa{background:#fff;color:var(--ink-900);border:1px solid var(--border-soft)}
+.sticky-wa{background:#fff;color:var(--ink-900);border:1px solid var(--border-soft);animation:pulse-ring 2.6s ease-out infinite}
 .sticky-call{background:var(--amber);color:var(--ink-900)}
+
+@keyframes pulse-ring{
+  0%{box-shadow:var(--shadow-float),0 0 0 0 rgba(224,168,0,.35)}
+  70%{box-shadow:var(--shadow-float),0 0 0 14px rgba(224,168,0,0)}
+  100%{box-shadow:var(--shadow-float),0 0 0 0 rgba(224,168,0,0)}
+}
+
+/* scroll-reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+.reveal.is-visible{opacity:1;transform:translateY(0)}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1!important;transform:none!important;transition:none!important}
+  .sticky-wa{animation:none}
+  .card:hover{transform:none}
+  .service-card:hover img,.gallery-item:hover img{transform:none}
+}
 
 @media (max-width:860px){
   .lead-card{position:static}
@@ -288,7 +313,7 @@ button{font-family:inherit}
 
 <section class="hero">
   <div class="wrap hero-grid">
-    <div class="hero-copy">
+    <div class="hero-copy reveal">
       <span class="eyebrow">Home interiors in Bangalore</span>
       <h1>Designing Beautiful Bangalore Homes You'll Love to Live In</h1>
       <p class="hero-lede">Personalized consultation, transparent quotes, and end-to-end execution — from KR Puram to Electronic City.</p>
@@ -310,7 +335,7 @@ button{font-family:inherit}
       </div>
     </div>
 
-    <div id="lead" class="lead-card card">
+    <div id="lead" class="lead-card card reveal" style="transition-delay:120ms">
       <div id="lead-form-view">
         <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
           <h2>Book a free consultation</h2>
@@ -384,28 +409,28 @@ button{font-family:inherit}
 
 <section class="section-inset">
   <div class="wrap">
-    <div class="section-heading" style="margin-bottom:clamp(32px,4vw,52px);max-width:720px;">
+    <div class="section-heading reveal" style="margin-bottom:clamp(32px,4vw,52px);max-width:720px;">
       <span class="eyebrow">What we do</span>
       <h2>Complete home interior solutions, under one roof</h2>
       <p class="lede">Design consultation, space planning, modular kitchen, wardrobes, living and bedroom interiors, pooja units, TV units, false ceiling, lighting and furniture — designed and executed by one accountable team.</p>
     </div>
     <div class="feature-grid">
-      <div class="feature-card card">
+      <div class="feature-card card reveal">
         <span class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M20 21a8 8 0 0 0-16 0"></path></svg></span>
         <h3>Personalized consultation</h3>
         <p>Designs built around your family, habits and budget, never templated.</p>
       </div>
-      <div class="feature-card card">
+      <div class="feature-card card reveal">
         <span class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"></path><path d="M14 2v5h5"></path><path d="M9 13h6"></path><path d="M9 17h4"></path></svg></span>
         <h3>Transparent quotation</h3>
         <p>Itemized to the last handle and hinge, with no hidden costs.</p>
       </div>
-      <div class="feature-card card">
+      <div class="feature-card card reveal">
         <span class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z"></path><path d="m9 12 2 2 4-4"></path></svg></span>
         <h3>Quality materials</h3>
         <p>Moisture and termite-resistant materials suited to Bangalore's climate.</p>
       </div>
-      <div class="feature-card card">
+      <div class="feature-card card reveal">
         <span class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l6-4v5l6-4v6l6-4v14z"></path><path d="M9 21v-5h6v5"></path></svg></span>
         <h3>End-to-end execution</h3>
         <p>One team owns design, production and installation — with Seasun Group factory support.</p>
@@ -417,12 +442,12 @@ button{font-family:inherit}
 <section class="section">
   <div class="wrap">
     <div class="stats-grid card">
-      <div class="stat"><span class="value">500+</span><span class="label">Projects completed</span></div>
-      <div class="stat"><span class="value">6–10 wks</span><span class="label">Average delivery time</span></div>
-      <div class="stat"><span class="value">100%</span><span class="label">Transparent itemized quotes</span></div>
-      <div class="stat"><span class="value">20+</span><span class="label">Bangalore localities served</span></div>
+      <div class="stat reveal"><span class="value" data-count="500" data-suffix="+">0+</span><span class="label">Projects completed</span></div>
+      <div class="stat reveal"><span class="value">6–10 wks</span><span class="label">Average delivery time</span></div>
+      <div class="stat reveal"><span class="value" data-count="100" data-suffix="%">0%</span><span class="label">Transparent itemized quotes</span></div>
+      <div class="stat reveal"><span class="value" data-count="20" data-suffix="+">0+</span><span class="label">Bangalore localities served</span></div>
     </div>
-    <div class="locality-block">
+    <div class="locality-block reveal">
       <span class="eyebrow">Across the city</span>
       <div class="chip-row">
         <a href="#lead" class="chip">KR Puram</a>
@@ -446,13 +471,13 @@ button{font-family:inherit}
 
 <section class="section-inset">
   <div class="wrap">
-    <div class="section-heading" style="margin-bottom:clamp(30px,4vw,48px);max-width:660px;">
+    <div class="section-heading reveal" style="margin-bottom:clamp(30px,4vw,48px);max-width:660px;">
       <span class="eyebrow">Our services</span>
       <h2>Every room, designed and delivered by one team</h2>
       <p class="lede">Pick the room you want to start with — we cost it, build it in our partner factory and install it.</p>
     </div>
     <div class="service-grid">
-      <div class="service-card card">
+      <div class="service-card card reveal">
         <img src="images/kitchen.jpg" alt="Modular kitchen with wood cabinetry and marble counter">
         <div class="service-card-body">
           <h3>Modular Kitchen</h3>
@@ -460,7 +485,7 @@ button{font-family:inherit}
           <a href="#lead" class="service-link">Get a kitchen quote →</a>
         </div>
       </div>
-      <div class="service-card card">
+      <div class="service-card card reveal">
         <img src="images/wardrobe.jpg" alt="Mirrored sliding wardrobe in a warm bedroom">
         <div class="service-card-body">
           <h3>Wardrobes &amp; Storage</h3>
@@ -468,7 +493,7 @@ button{font-family:inherit}
           <a href="#lead" class="service-link">Plan my storage →</a>
         </div>
       </div>
-      <div class="service-card card">
+      <div class="service-card card reveal">
         <img src="images/living.jpg" alt="Living room with panelled feature wall and layered lighting">
         <div class="service-card-body">
           <h3>Living Room Interiors</h3>
@@ -476,7 +501,7 @@ button{font-family:inherit}
           <a href="#lead" class="service-link">Design my living room →</a>
         </div>
       </div>
-      <div class="service-card card">
+      <div class="service-card card reveal">
         <img src="images/bedroom.jpg" alt="Bedroom with fluted wood panelling and cove lighting">
         <div class="service-card-body">
           <h3>Bedroom Interiors</h3>
@@ -484,7 +509,7 @@ button{font-family:inherit}
           <a href="#lead" class="service-link">Design my bedroom →</a>
         </div>
       </div>
-      <div class="service-card card">
+      <div class="service-card card reveal">
         <img src="images/dining.jpg" alt="Dining area with marble feature wall and pendant lighting">
         <div class="service-card-body">
           <h3>Full Home Interiors</h3>
@@ -492,7 +517,7 @@ button{font-family:inherit}
           <a href="#lead" class="service-link">Get a full-home quote →</a>
         </div>
       </div>
-      <div class="service-card card">
+      <div class="service-card card reveal">
         <img src="images/ceiling.jpg" alt="Bedroom ceiling with cove lighting and gold ring pendant">
         <div class="service-card-body">
           <h3>Ceiling, Lighting &amp; Decor</h3>
@@ -506,27 +531,27 @@ button{font-family:inherit}
 
 <section class="section">
   <div class="wrap">
-    <div class="section-heading center" style="margin-bottom:clamp(34px,4vw,56px);max-width:560px;">
+    <div class="section-heading center reveal" style="margin-bottom:clamp(34px,4vw,56px);max-width:560px;">
       <span class="eyebrow">How it works</span>
       <h2>A simple, transparent process</h2>
     </div>
     <div class="process-grid">
-      <div class="process-step card">
+      <div class="process-step card reveal">
         <span class="process-num">1</span>
         <h3>Consultation</h3>
         <p>We understand your home, lifestyle, timeline and budget — free of charge.</p>
       </div>
-      <div class="process-step card elevated">
+      <div class="process-step card elevated reveal">
         <span class="process-num">2</span>
         <h3>Design &amp; Quote</h3>
         <p>3D designs and an itemized quotation, revised with you until the plan and the number both fit.</p>
       </div>
-      <div class="process-step card">
+      <div class="process-step card reveal">
         <span class="process-num">3</span>
         <h3>Production</h3>
         <p>Built with factory support from Seasun Group, in moisture and termite-resistant materials.</p>
       </div>
-      <div class="process-step card">
+      <div class="process-step card reveal">
         <span class="process-num">4</span>
         <h3>Installation</h3>
         <p>Site-managed installation and handover, typically six to ten weeks from sign-off.</p>
@@ -538,41 +563,41 @@ button{font-family:inherit}
 <section class="gallery">
   <div class="wrap">
     <div class="gallery-head">
-      <div style="max-width:560px;display:flex;flex-direction:column;gap:12px;">
+      <div class="reveal" style="max-width:560px;display:flex;flex-direction:column;gap:12px;">
         <span class="eyebrow">Recent work</span>
         <h2>Homes we have finished across Bangalore</h2>
       </div>
       <a href="#lead" class="btn btn-onphoto btn-md">Book Free Consultation</a>
     </div>
     <div class="gallery-grid">
-      <img src="images/bedroom-warm.jpg" alt="Beige master bedroom with mural wall and pendant lights">
-      <img src="images/kitchen-dark.jpg" alt="Graphite modular kitchen with fluted island and brass pendants">
-      <img src="images/kids.jpg" alt="Kids bedroom with arched storage, study desk and swing">
-      <img src="images/bedroom-earthy.jpg" alt="Earthy bedroom with block-print upholstered headboard wall">
-      <img src="images/balcony.jpg" alt="Balcony seating with deck flooring and planters">
-      <img src="images/dresser.jpg" alt="Fluted panel dresser unit with backlit mirror">
+      <div class="gallery-item reveal"><img src="images/bedroom-warm.jpg" alt="Beige master bedroom with mural wall and pendant lights"></div>
+      <div class="gallery-item reveal"><img src="images/kitchen-dark.jpg" alt="Graphite modular kitchen with fluted island and brass pendants"></div>
+      <div class="gallery-item reveal"><img src="images/kids.jpg" alt="Kids bedroom with arched storage, study desk and swing"></div>
+      <div class="gallery-item reveal"><img src="images/bedroom-earthy.jpg" alt="Earthy bedroom with block-print upholstered headboard wall"></div>
+      <div class="gallery-item reveal"><img src="images/balcony.jpg" alt="Balcony seating with deck flooring and planters"></div>
+      <div class="gallery-item reveal"><img src="images/dresser.jpg" alt="Fluted panel dresser unit with backlit mirror"></div>
     </div>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
-    <div class="section-heading center" style="margin-bottom:clamp(30px,4vw,48px);max-width:560px;">
+    <div class="section-heading center reveal" style="margin-bottom:clamp(30px,4vw,48px);max-width:560px;">
       <span class="eyebrow">Reviews</span>
       <h2>What Bangalore homeowners say</h2>
     </div>
     <div class="testimonial-grid">
-      <div class="testimonial card">
+      <div class="testimonial card reveal">
         <span class="stars">★★★★★</span>
         <blockquote>"Metaspaces did an amazing job designing our home interiors! They really understood our style and needs, and the final result was exactly what we wanted."</blockquote>
         <span class="who"><strong>Manu Abraham</strong> · Home interiors · Google review</span>
       </div>
-      <div class="testimonial card">
+      <div class="testimonial card reveal">
         <span class="stars">★★★★★</span>
         <blockquote>"I recently worked with Metaspaces on designing my home interiors, and it was a truly enjoyable experience. I was aiming for an elegant and simple aesthetic, and the team delivered beautifully."</blockquote>
         <span class="who"><strong>Karthika Harindran</strong> · Home interiors · Google review</span>
       </div>
-      <div class="testimonial card">
+      <div class="testimonial card reveal">
         <span class="stars">★★★★★</span>
         <blockquote>"We absolutely loved the quality of work and professionalism that they carried. They were very accommodative to whatever we had to say."</blockquote>
         <span class="who"><strong>Deepa T P</strong> · Local Guide · Google review</span>
@@ -583,25 +608,25 @@ button{font-family:inherit}
 
 <section class="section-inset">
   <div class="wrap">
-    <div class="section-heading" style="margin-bottom:clamp(30px,4vw,48px);max-width:640px;">
+    <div class="section-heading reveal" style="margin-bottom:clamp(30px,4vw,48px);max-width:640px;">
       <span class="eyebrow">Indicative pricing</span>
       <h2>Real price bands, before you ever meet us</h2>
       <p class="lede">Final pricing depends on scope and material selection — every quote is itemized and free.</p>
     </div>
     <div class="pricing-grid">
-      <div class="price-card card">
+      <div class="price-card card reveal">
         <span class="tag">2BHK Interiors</span>
         <strong class="amount">₹4 Lakh</strong>
         <span class="range">starting, up to ₹8 Lakh+ premium</span>
         <p>Essential package through to a full premium finish, depending on scope.</p>
       </div>
-      <div class="price-card card">
+      <div class="price-card card reveal">
         <span class="tag">3BHK Interiors</span>
         <strong class="amount">₹6 Lakh</strong>
         <span class="range">starting, up to ₹12 Lakh+ premium</span>
         <p>Varies by wardrobe count, kitchen size and finish grade.</p>
       </div>
-      <div class="price-card card">
+      <div class="price-card card reveal">
         <span class="offer-flag">Limited-period offer</span>
         <span class="tag">Full Home Interiors</span>
         <strong class="amount">₹3.99 Lakh*</strong>
@@ -617,30 +642,30 @@ button{font-family:inherit}
 <section class="section">
   <div class="wrap faq-grid">
     <div style="display:flex;flex-direction:column;gap:20px;">
-      <div class="section-heading" style="max-width:460px;">
+      <div class="section-heading reveal" style="max-width:460px;">
         <span class="eyebrow">Questions</span>
         <h2>Everything homeowners ask us first</h2>
       </div>
-      <div class="faq-photo"><img src="images/bedroom-luxe.jpg" alt="Premium bedroom interior with panelled walls and soft lighting"></div>
+      <div class="faq-photo reveal"><img src="images/bedroom-luxe.jpg" alt="Premium bedroom interior with panelled walls and soft lighting"></div>
     </div>
     <div>
-      <details class="faq-item" open>
+      <details class="faq-item reveal" open>
         <summary class="faq-q">Who is the best home interior designer in Bangalore?<span class="plus">+</span></summary>
         <p class="faq-a">Metaspaces offers personalized consultation, transparent quotations, quality materials and end-to-end execution, backed by Seasun Group's factory support, across KR Puram, Whitefield, Hennur, Sarjapur Road, HSR Layout and every major Bangalore locality.</p>
       </details>
-      <details class="faq-item">
+      <details class="faq-item reveal">
         <summary class="faq-q">How much does 2BHK interior design cost in Bangalore?<span class="plus">+</span></summary>
         <p class="faq-a">Typically ₹4 lakh for essentials up to ₹8 lakh+ for a premium full-home package, depending on scope and finish.</p>
       </details>
-      <details class="faq-item">
+      <details class="faq-item reveal">
         <summary class="faq-q">How much does 3BHK interior design cost in Bangalore?<span class="plus">+</span></summary>
         <p class="faq-a">Generally starts around ₹6 lakh, up to ₹12 lakh+ for premium customized interiors.</p>
       </details>
-      <details class="faq-item">
+      <details class="faq-item reveal">
         <summary class="faq-q">Do you provide modular kitchen interiors?<span class="plus">+</span></summary>
         <p class="faq-a">Yes — L-shape, U-shape, parallel and island layouts with moisture-resistant ply and premium hardware.</p>
       </details>
-      <details class="faq-item">
+      <details class="faq-item reveal">
         <summary class="faq-q">Do you provide free consultation?<span class="plus">+</span></summary>
         <p class="faq-a">Yes, no-obligation, with a real design expert. We respect your privacy and will only use your details to plan your project.</p>
       </details>
@@ -650,7 +675,7 @@ button{font-family:inherit}
 
 <section class="final-cta">
   <div class="wrap">
-    <div>
+    <div class="reveal">
       <h2>Ready to design your Bangalore home?</h2>
       <p class="sub">Talk to a design expert — no obligation, no hidden costs.</p>
     </div>
@@ -788,6 +813,106 @@ button{font-family:inherit}
     doneView.style.display = 'flex';
     document.getElementById('done-summary').textContent =
       [serviceEl.value, propertyEl.value, locality].filter(Boolean).join(' · ') + (nameEl.value ? ' — ' + nameEl.value : '');
+  });
+})();
+</script>
+
+<script>
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Stagger reveal delays for grid children
+  document.querySelectorAll('.feature-grid, .service-grid, .process-grid, .testimonial-grid, .pricing-grid, .gallery-grid, .stats-grid').forEach(grid => {
+    Array.from(grid.children).forEach((child, i) => {
+      if (child.classList.contains('reveal')) child.style.transitionDelay = Math.min(i * 90, 360) + 'ms';
+    });
+  });
+
+  function animateCount(el){
+    const target = parseInt(el.dataset.count, 10);
+    const suffix = el.dataset.suffix || '';
+    if (reduceMotion || isNaN(target)) { el.textContent = target + suffix; return; }
+    const duration = 1200;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    revealEls.forEach(el => {
+      el.classList.add('is-visible');
+      const counter = el.querySelector ? el.querySelector('[data-count]') : null;
+      if (counter) counter.textContent = counter.dataset.count + (counter.dataset.suffix || '');
+    });
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        const counter = entry.target.querySelector('[data-count]');
+        if (counter && !counter.dataset.counted) {
+          counter.dataset.counted = '1';
+          animateCount(counter);
+        }
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+  }
+
+  // Header shadow on scroll
+  const header = document.querySelector('.site-header');
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // Smooth FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(details => {
+    const summary = details.querySelector('summary');
+    const content = details.querySelector('.faq-a');
+    if (!summary || !content) return;
+    content.style.overflow = 'hidden';
+
+    summary.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (reduceMotion) { details.open = !details.open; return; }
+
+      if (details.open) {
+        const startHeight = content.scrollHeight;
+        content.style.height = startHeight + 'px';
+        requestAnimationFrame(() => {
+          content.style.transition = 'height .3s ease';
+          content.style.height = '0px';
+        });
+        content.addEventListener('transitionend', function handler(){
+          details.open = false;
+          content.style.transition = '';
+          content.style.height = '';
+          content.removeEventListener('transitionend', handler);
+        });
+      } else {
+        details.open = true;
+        const endHeight = content.scrollHeight;
+        content.style.height = '0px';
+        requestAnimationFrame(() => {
+          content.style.transition = 'height .3s ease';
+          content.style.height = endHeight + 'px';
+        });
+        content.addEventListener('transitionend', function handler(){
+          content.style.transition = '';
+          content.style.height = '';
+          content.removeEventListener('transitionend', handler);
+        });
+      }
+    });
   });
 })();
 </script>
