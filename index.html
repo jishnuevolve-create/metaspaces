@@ -251,7 +251,8 @@ button{font-family:inherit}
 .footer-links a:hover{color:#fff}
 
 /* sticky contact */
-.sticky-contact{position:fixed;right:18px;bottom:18px;z-index:80;display:flex;flex-direction:column;gap:10px}
+.sticky-contact{position:fixed;right:18px;bottom:18px;z-index:80;display:flex;flex-direction:column;gap:10px;opacity:1;pointer-events:auto;transition:opacity .25s var(--ease-out)}
+.sticky-contact.is-hidden{opacity:0;pointer-events:none}
 .sticky-btn{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:999px;box-shadow:var(--shadow-float);text-decoration:none;transition:transform var(--dur-fast) var(--ease-out)}
 .sticky-btn:hover{transform:translateY(-3px)}
 .sticky-wa{background:#fff;color:var(--ink-900);border:1px solid var(--border-soft);animation:pulse-ring 2.6s ease-out infinite}
@@ -307,6 +308,8 @@ button{font-family:inherit}
   .btn-sm .label-short{display:inline}
   .cta-call,.cta-wa{padding:14px 20px;font-size:15px}
   h1{word-break:break-word}
+  .sticky-contact{right:14px;bottom:14px;gap:8px}
+  .sticky-btn{width:46px;height:46px}
 }
 </style>
 </head>
@@ -892,6 +895,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // Hide the floating sticky Call/WhatsApp buttons while the lead form
+  // itself is in view, so they can't overlap or block its dropdowns on
+  // narrow screens — the form already has its own prominent CTA there.
+  const stickyContact = document.querySelector('.sticky-contact');
+  const leadCard = document.getElementById('lead');
+  if (stickyContact && leadCard && 'IntersectionObserver' in window) {
+    const stickyObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        stickyContact.classList.toggle('is-hidden', entry.isIntersecting);
+      });
+    }, { threshold: 0.2 });
+    stickyObserver.observe(leadCard);
   }
 
   // Smooth FAQ accordion
