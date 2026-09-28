@@ -16,6 +16,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="images/living.webp" fetchpriority="high">
 <style>
 :root{
   /* base palette */
@@ -111,12 +112,16 @@ button{font-family:inherit}
 .hero-copy{display:flex;flex-direction:column;gap:22px}
 .hero-copy h1{font-size:clamp(38px,5vw,62px);line-height:1.05;letter-spacing:-0.03em}
 .hero-lede{font-size:var(--fs-lede);line-height:var(--lh-lede);color:var(--text-body);max-width:52ch}
+.hero-cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.hero-cta-secondary{display:flex;gap:10px}
+.hero-icon-btn{display:inline-flex;align-items:center;gap:7px;padding:12px 18px;border-radius:var(--radius-pill);border:1px solid var(--border-hairline);color:var(--text-heading);font-weight:var(--fw-bold);font-size:14px;background:var(--surface-card);transition:border-color var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out)}
+.hero-icon-btn:hover{border-color:var(--border-accent);color:var(--text-heading);transform:translateY(-2px)}
 .hero-meta{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
 .hero-meta .badge-text{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:var(--fw-semibold);color:var(--text-strong)}
 .hero-meta .stars{color:var(--star);letter-spacing:2px}
 .hero-meta .divider{width:1px;height:18px;background:var(--border-hairline)}
 .hero-photo{position:relative;margin-top:6px}
-.hero-photo img{width:100%;aspect-ratio:5/4;object-fit:cover;border-radius:var(--radius-xl);box-shadow:var(--shadow-card)}
+.hero-photo img{width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;border-radius:var(--radius-xl);box-shadow:var(--shadow-card)}
 .floating-badge{display:flex;flex-direction:column;gap:2px;background:var(--surface-card);border-radius:var(--radius-md);box-shadow:var(--shadow-float);padding:10px 16px;min-width:150px}
 .floating-badge .value{font-size:18px;font-weight:var(--fw-extrabold);color:var(--text-heading);letter-spacing:-0.02em}
 .floating-badge .label{font-size:12px;color:var(--text-body);font-weight:var(--fw-medium)}
@@ -136,6 +141,7 @@ button{font-family:inherit}
 .field input,.field select{width:100%;height:52px;padding:0 16px;border-radius:var(--radius-md);border:1px solid var(--border-hairline);background:var(--surface-card);font-size:15px;font-family:inherit;color:var(--text-heading)}
 .field input:focus,.field select:focus{border-color:var(--border-accent);box-shadow:var(--ring-focus)}
 .field input::placeholder{color:var(--ink-300)}
+.honeypot-field{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden}
 .autocomplete{position:relative}
 .autocomplete-list{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--surface-card);border:1px solid var(--border-soft);border-radius:var(--radius-md);box-shadow:var(--shadow-card-hover);max-height:220px;overflow-y:auto;z-index:20;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .18s var(--ease-out),transform .18s var(--ease-out)}
 .autocomplete-list.open{opacity:1;transform:translateY(0);pointer-events:auto}
@@ -172,7 +178,7 @@ button{font-family:inherit}
 /* services */
 .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:24px}
 .service-card{overflow:hidden;display:flex;flex-direction:column}
-.service-card img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .5s var(--ease-out)}
+.service-card img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;transition:transform .5s var(--ease-out)}
 .service-card:hover img{transform:scale(1.06)}
 .service-card-body{padding:22px 22px 24px;display:flex;flex-direction:column;gap:10px}
 .service-card p{font-size:14px;line-height:1.65;color:var(--text-body)}
@@ -192,7 +198,7 @@ button{font-family:inherit}
 .gallery-head .eyebrow{color:var(--amber)}
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}
 .gallery-item{overflow:hidden;border-radius:var(--radius-lg)}
-.gallery-item img{width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform .5s var(--ease-out)}
+.gallery-item img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;transition:transform .5s var(--ease-out)}
 .gallery-item:hover img{transform:scale(1.08)}
 
 /* testimonials */
@@ -214,7 +220,7 @@ button{font-family:inherit}
 
 /* faq */
 .faq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(28px,4vw,56px);align-items:start}
-.faq-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-xl);box-shadow:var(--shadow-card)}
+.faq-photo img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-xl);box-shadow:var(--shadow-card)}
 .faq-item{border-bottom:1px solid var(--border-soft)}
 .faq-item:first-child{border-top:1px solid var(--border-soft)}
 .faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 4px;background:none;border:none;text-align:left;cursor:pointer;font-size:16px;font-weight:var(--fw-bold);color:var(--text-heading)}
@@ -274,6 +280,10 @@ button{font-family:inherit}
 }
 
 @media (max-width:600px){
+  .hero-cta-row{flex-direction:column;align-items:stretch}
+  .hero-cta-row .btn-lg{width:100%;justify-content:center}
+  .hero-cta-secondary{width:100%}
+  .hero-icon-btn{flex:1 1 0;justify-content:center}
   .hero-photo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .hero-photo img{grid-column:1/-1}
   .badge-bottom-left,.badge-top-right{position:static;min-width:0;padding:9px 12px}
@@ -332,17 +342,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 
+<!-- ============================================================
+     CONTENT CONFIG — edit these, not the markup further down.
+     Real content only: no invented testimonials, ratings, or prices.
+     ============================================================ -->
+<script>
+  // Real Google reviews already on the site. Add more objects here as you
+  // get them — { name, rating (1-5), text (verbatim, no edits), date
+  // (optional, leave '' if unknown) }. Leave the array empty to render no
+  // testimonial cards at all.
+  var TESTIMONIALS = [
+    {
+      name: 'Manu Abraham',
+      rating: 5,
+      text: "Metaspaces did an amazing job designing our home interiors! They really understood our style and needs, and the final result was exactly what we wanted.",
+      date: ''
+    },
+    {
+      name: 'Karthika Harindran',
+      rating: 5,
+      text: "I recently worked with Metaspaces on designing my home interiors, and it was a truly enjoyable experience. I was aiming for an elegant and simple aesthetic, and the team delivered beautifully.",
+      date: ''
+    },
+    {
+      name: 'Deepa T P',
+      rating: 5,
+      text: "We absolutely loved the quality of work and professionalism that they carried. They were very accommodative to whatever we had to say.",
+      date: ''
+    }
+  ];
+
+  // Fill these in with real values from Google Business Profile to show an
+  // overall rating line above the reviews. Leave either empty to hide it.
+  var GOOGLE_RATING = '';       // e.g. '4.8'
+  var GOOGLE_REVIEW_COUNT = ''; // e.g. '42'
+
+  // "Projects typically start from ₹[MIN_PROJECT_VALUE]" — leave empty to
+  // hide the price line section entirely.
+  var MIN_PROJECT_VALUE = ''; // e.g. '4 Lakh'
+</script>
+
 <header class="site-header">
   <div class="wrap">
-    <img src="images/logo.png" alt="Metaspaces Interiors" class="site-logo" style="height:34px;width:auto;">
+    <img src="images/logo.png" alt="Metaspaces Interiors" class="site-logo" width="250" height="150" fetchpriority="high" decoding="async" style="height:34px;width:auto;">
     <div class="header-actions">
       <a href="tel:+918618008947" class="phone-link" aria-label="Call 86180 08947">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.9 2.2z"></path></svg>
         <span class="phone-text">86180 08947</span>
       </a>
       <a href="#lead" class="btn btn-primary btn-sm">
-        <span class="label-full">Book Free Consultation</span>
-        <span class="label-short" hidden>Book Now</span>
+        <span class="label-full">Get a Free Consultation</span>
+        <span class="label-short" hidden>Get Consultation</span>
       </a>
     </div>
   </div>
@@ -352,15 +402,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap hero-grid">
     <div class="hero-copy reveal">
       <span class="eyebrow">Home interiors in Bangalore</span>
-      <h1>Designing Beautiful Bangalore Homes You'll Love to Live In</h1>
-      <p class="hero-lede">Personalized consultation, transparent quotes, and end-to-end execution — from KR Puram to Electronic City.</p>
+      <h1>Home Interior Designers in Bangalore</h1>
+      <p class="hero-lede">Free design consultation, and one accountable team with you from design to handover — from KR Puram to Electronic City.</p>
+      <div class="hero-cta-row">
+        <a href="#lead" class="btn btn-primary btn-lg">Get a Free Design Consultation</a>
+        <div class="hero-cta-secondary">
+          <a href="tel:+918618008947" class="hero-icon-btn" aria-label="Call 86180 08947">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.9 2.2z"></path></svg>
+            Call
+          </a>
+          <a href="https://wa.me/918618008947" target="_blank" rel="noopener" class="hero-icon-btn" aria-label="WhatsApp Metaspaces">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.9-.9L3 20.5l1.5-4.4A8.4 8.4 0 0 1 3.6 11.5a8.4 8.4 0 0 1 8.4-8.4 8.4 8.4 0 0 1 9 8.4z"></path></svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
       <div class="hero-meta">
         <span class="badge-text"><span class="stars">★★★★★</span> 4.8 on Google</span>
         <span class="divider"></span>
         <span class="badge-text">A Seasun Group company</span>
       </div>
       <div class="hero-photo">
-        <img src="images/living.jpg" alt="Warm modern living room interior by Metaspaces in Bangalore">
+        <img src="images/living.webp" alt="Warm modern living room interior by Metaspaces in Bangalore" width="736" height="881" fetchpriority="high" decoding="async">
         <div class="badge-bottom-left floating-badge">
           <span class="value">500+</span>
           <span class="label">Projects completed</span>
@@ -381,55 +444,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <form id="lead-form" class="form-fields" novalidate>
           <div class="field">
             <label for="f-name">Name <span class="req">*</span></label>
-            <input id="f-name" name="name" type="text" placeholder="Your full name" required>
+            <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required>
           </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="f-phone">Phone <span class="req">*</span></label>
-              <input id="f-phone" name="phone" type="tel" inputmode="numeric" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" required>
-              <span id="phone-error" class="hint" style="color:var(--red-600);display:none;">Enter a valid 10-digit mobile number.</span>
-            </div>
-            <div class="field">
-              <label for="f-email">Email <span class="req">*</span></label>
-              <input id="f-email" name="email" type="email" placeholder="you@email.com" required>
-            </div>
+          <div class="field">
+            <label for="f-phone">Phone <span class="req">*</span></label>
+            <input id="f-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" required>
+            <span id="phone-error" class="hint" style="color:var(--red-600);display:none;">Enter a valid 10-digit mobile number.</span>
           </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="f-service">What do you need? <span class="req">*</span></label>
-              <select id="f-service" name="service" required>
-                <option value="" selected disabled>Select a service</option>
-                <option>Full Home</option>
-                <option>Modular Kitchen</option>
-                <option>Wardrobes</option>
-                <option>Living Room</option>
-                <option>Bedroom</option>
-                <option>Something else</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="f-property">Property type <span class="req">*</span></label>
-              <select id="f-property" name="property" required>
-                <option value="" selected disabled>Select property type</option>
-                <option>1BHK</option>
-                <option>2BHK</option>
-                <option>3BHK</option>
-                <option>4BHK+</option>
-                <option>Villa</option>
-                <option>Apartment</option>
-              </select>
-            </div>
+          <div class="field">
+            <label for="f-property">Property type &amp; size <span class="req">*</span></label>
+            <select id="f-property" name="property_type" autocomplete="off" required>
+              <option value="" selected disabled>Select property type</option>
+              <option value="2 BHK apartment">2 BHK apartment</option>
+              <option value="3 BHK apartment">3 BHK apartment</option>
+              <option value="4 BHK+ or villa">4 BHK+ or villa</option>
+              <option value="Independent house">Independent house</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
-          <div class="field autocomplete">
-            <label for="f-locality">Your locality <span class="req">*</span></label>
-            <input id="f-locality" name="locality" type="text" placeholder="Search your area — e.g. Whitefield" autocomplete="off" required>
-            <div id="locality-list" class="autocomplete-list"></div>
-            <span class="hint">We serve 20+ localities across Bangalore.</span>
+          <div class="field">
+            <label for="f-budget">Budget range <span class="req">*</span></label>
+            <select id="f-budget" name="budget" autocomplete="off" required>
+              <option value="" selected disabled>Select a budget range</option>
+              <option value="Below ₹5 lakh">Below ₹5 lakh</option>
+              <option value="₹5-10 lakh">₹5-10 lakh</option>
+              <option value="₹10-20 lakh">₹10-20 lakh</option>
+              <option value="₹20 lakh+">₹20 lakh+</option>
+              <option value="Not sure yet">Not sure yet</option>
+            </select>
           </div>
-          <button type="submit" id="lead-submit" class="btn btn-primary btn-lg btn-full" disabled>Book Free Consultation</button>
-          <p id="submit-error" class="hint" style="color:var(--red-600);display:none;">Something went wrong submitting your details. Please try again.</p>
+          <div class="field">
+            <label for="f-timeline">Timeline <span class="req">*</span></label>
+            <select id="f-timeline" name="timeline" autocomplete="off" required>
+              <option value="" selected disabled>Select a timeline</option>
+              <option value="Immediately">Immediately</option>
+              <option value="Within 1-3 months">Within 1-3 months</option>
+              <option value="3-6 months">3-6 months</option>
+              <option value="Just exploring">Just exploring</option>
+            </select>
+          </div>
+          <div class="honeypot-field" aria-hidden="true">
+            <label for="f-honey">Leave this field blank</label>
+            <input id="f-honey" name="_honey" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <button type="submit" id="lead-submit" class="btn btn-primary btn-lg btn-full" disabled>Get a Free Design Consultation</button>
+          <p id="submit-error" class="hint" style="color:var(--red-600);display:none;">Something went wrong submitting your details. Please try again, or reach us directly:</p>
+          <div id="submit-error-actions" class="final-cta-actions" style="display:none;gap:10px;">
+            <a href="tel:+918618008947" class="hero-icon-btn" style="justify-content:center;flex:1;">Call us</a>
+            <a href="https://wa.me/918618008947" target="_blank" rel="noopener" class="hero-icon-btn" style="justify-content:center;flex:1;">WhatsApp us</a>
+          </div>
         </form>
-        <p class="fine-print" style="margin-top:14px;">We'll respond within one business day. By submitting, you agree to be contacted by Metaspaces.</p>
+        <p class="fine-print" style="margin-top:14px;">By submitting, you agree to be contacted by Metaspaces about your enquiry. See our <a href="/privacy">privacy policy</a>.</p>
       </div>
 
       <div id="lead-done-view" class="done-panel" style="display:none;">
@@ -445,124 +510,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<section class="section-inset">
+<!-- Recent projects gallery: real repo images only. If none exist, this
+     renders nothing (TODO: swap in real client project photos here). -->
+<section class="gallery">
   <div class="wrap">
-    <div class="section-heading reveal" style="margin-bottom:clamp(32px,4vw,52px);max-width:720px;">
-      <span class="eyebrow">What we do</span>
-      <h2>Complete home interior solutions, under one roof</h2>
-      <p class="lede">Design consultation, space planning, modular kitchen, wardrobes, living and bedroom interiors, pooja units, TV units, false ceiling, lighting and furniture — designed and executed by one accountable team.</p>
+    <div class="gallery-head">
+      <div class="reveal" style="max-width:560px;display:flex;flex-direction:column;gap:12px;">
+        <span class="eyebrow">Recent work</span>
+        <h2>Homes we have finished across Bangalore</h2>
+      </div>
+      <a href="#lead" class="btn btn-onphoto btn-md">Get a Free Design Consultation</a>
     </div>
-    <div class="feature-grid">
-      <div class="feature-card card reveal">
-        <span class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M20 21a8 8 0 0 0-16 0"></path></svg></span>
-        <h3>Personalized consultation</h3>
-        <p>Designs built around your family, habits and budget, never templated.</p>
-      </div>
-      <div class="feature-card card reveal">
-        <span class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"></path><path d="M14 2v5h5"></path><path d="M9 13h6"></path><path d="M9 17h4"></path></svg></span>
-        <h3>Transparent quotation</h3>
-        <p>Itemized to the last handle and hinge, with no hidden costs.</p>
-      </div>
-      <div class="feature-card card reveal">
-        <span class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z"></path><path d="m9 12 2 2 4-4"></path></svg></span>
-        <h3>Quality materials</h3>
-        <p>Moisture and termite-resistant materials suited to Bangalore's climate.</p>
-      </div>
-      <div class="feature-card card reveal">
-        <span class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l6-4v5l6-4v6l6-4v14z"></path><path d="M9 21v-5h6v5"></path></svg></span>
-        <h3>End-to-end execution</h3>
-        <p>One team owns design, production and installation — with Seasun Group factory support.</p>
-      </div>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal"><img src="images/bedroom-warm.webp" alt="Beige master bedroom with mural wall and pendant lights" width="700" height="875" loading="lazy" decoding="async"></div>
+      <div class="gallery-item reveal"><img src="images/kitchen-dark.webp" alt="Graphite modular kitchen with fluted island and brass pendants" width="700" height="1050" loading="lazy" decoding="async"></div>
+      <div class="gallery-item reveal"><img src="images/kids.webp" alt="Kids bedroom with arched storage, study desk and swing" width="700" height="632" loading="lazy" decoding="async"></div>
+      <div class="gallery-item reveal"><img src="images/bedroom-earthy.webp" alt="Earthy bedroom with block-print upholstered headboard wall" width="700" height="1050" loading="lazy" decoding="async"></div>
+      <div class="gallery-item reveal"><img src="images/balcony.webp" alt="Balcony seating with deck flooring and planters" width="700" height="1050" loading="lazy" decoding="async"></div>
+      <div class="gallery-item reveal"><img src="images/dresser.webp" alt="Fluted panel dresser unit with backlit mirror" width="700" height="875" loading="lazy" decoding="async"></div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<!-- Testimonials: rendered from the TESTIMONIALS array (see script near
+     top of <body>). Renders nothing if that array is empty. -->
+<section class="section" id="testimonials-section" style="display:none;">
   <div class="wrap">
-    <div class="stats-grid card">
-      <div class="stat reveal"><span class="value" data-count="500" data-suffix="+">0+</span><span class="label">Projects completed</span></div>
-      <div class="stat reveal"><span class="value">6–10 wks</span><span class="label">Average delivery time</span></div>
-      <div class="stat reveal"><span class="value" data-count="100" data-suffix="%">0%</span><span class="label">Transparent itemized quotes</span></div>
-      <div class="stat reveal"><span class="value" data-count="20" data-suffix="+">0+</span><span class="label">Bangalore localities served</span></div>
+    <div class="section-heading center reveal" style="margin-bottom:clamp(30px,4vw,48px);max-width:560px;">
+      <span class="eyebrow">Reviews</span>
+      <h2>What Bangalore homeowners say</h2>
+      <p id="google-rating-line" class="lede" style="display:none;"></p>
     </div>
-    <div class="locality-block reveal">
-      <span class="eyebrow">Across the city</span>
-      <div class="chip-row">
-        <a href="#lead" class="chip">KR Puram</a>
-        <a href="#lead" class="chip">Whitefield</a>
-        <a href="#lead" class="chip">Hennur</a>
-        <a href="#lead" class="chip">Sarjapur Road</a>
-        <a href="#lead" class="chip">Marathahalli</a>
-        <a href="#lead" class="chip">HSR Layout</a>
-        <a href="#lead" class="chip">JP Nagar</a>
-        <a href="#lead" class="chip">Indiranagar</a>
-        <a href="#lead" class="chip">Koramangala</a>
-        <a href="#lead" class="chip">Electronic City</a>
-        <a href="#lead" class="chip">Yelahanka</a>
-        <a href="#lead" class="chip">Hebbal</a>
-        <a href="#lead" class="chip">Bellandur</a>
-        <a href="#lead" class="chip">+ 7 more localities</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-inset">
-  <div class="wrap">
-    <div class="section-heading reveal" style="margin-bottom:clamp(30px,4vw,48px);max-width:660px;">
-      <span class="eyebrow">Our services</span>
-      <h2>Every room, designed and delivered by one team</h2>
-      <p class="lede">Pick the room you want to start with — we cost it, build it in our partner factory and install it.</p>
-    </div>
-    <div class="service-grid">
-      <div class="service-card card reveal">
-        <img src="images/kitchen.jpg" alt="Modular kitchen with wood cabinetry and marble counter">
-        <div class="service-card-body">
-          <h3>Modular Kitchen</h3>
-          <p>L-shaped, U-shaped, parallel and island kitchens with moisture-resistant ply, premium hardware and smart storage.</p>
-          <a href="#lead" class="service-link">Get a kitchen quote →</a>
-        </div>
-      </div>
-      <div class="service-card card reveal">
-        <img src="images/wardrobe.jpg" alt="Mirrored sliding wardrobe in a warm bedroom">
-        <div class="service-card-body">
-          <h3>Wardrobes &amp; Storage</h3>
-          <p>Sliding and hinged wardrobes, walk-ins and loft storage tailored to your room and routine.</p>
-          <a href="#lead" class="service-link">Plan my storage →</a>
-        </div>
-      </div>
-      <div class="service-card card reveal">
-        <img src="images/living.jpg" alt="Living room with panelled feature wall and layered lighting">
-        <div class="service-card-body">
-          <h3>Living Room Interiors</h3>
-          <p>TV units, false ceilings, accent walls, lighting and furniture that make a warm first impression.</p>
-          <a href="#lead" class="service-link">Design my living room →</a>
-        </div>
-      </div>
-      <div class="service-card card reveal">
-        <img src="images/bedroom.jpg" alt="Bedroom with fluted wood panelling and cove lighting">
-        <div class="service-card-body">
-          <h3>Bedroom Interiors</h3>
-          <p>Restful master and kids' bedrooms with cohesive wardrobes, study units and ambient lighting.</p>
-          <a href="#lead" class="service-link">Design my bedroom →</a>
-        </div>
-      </div>
-      <div class="service-card card reveal">
-        <img src="images/dining.jpg" alt="Dining area with marble feature wall and pendant lighting">
-        <div class="service-card-body">
-          <h3>Full Home Interiors</h3>
-          <p>End-to-end interiors for 2BHK, 3BHK, apartments and villas — designed, costed and executed by us.</p>
-          <a href="#lead" class="service-link">Get a full-home quote →</a>
-        </div>
-      </div>
-      <div class="service-card card reveal">
-        <img src="images/ceiling.jpg" alt="Bedroom ceiling with cove lighting and gold ring pendant">
-        <div class="service-card-body">
-          <h3>Ceiling, Lighting &amp; Decor</h3>
-          <p>False ceilings, layered lighting, pooja units, partitions and finishing touches.</p>
-          <a href="#lead" class="service-link">Talk to a designer →</a>
-        </div>
-      </div>
+    <div class="testimonial-grid" id="testimonial-grid"></div>
+    <div style="text-align:center;margin-top:clamp(24px,3vw,36px);">
+      <a href="https://share.google/0rfLfo52nyUwzZQTq" target="_blank" rel="noopener noreferrer">Read all our reviews on Google</a>
     </div>
   </div>
 </section>
@@ -581,133 +562,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="process-step card elevated reveal">
         <span class="process-num">2</span>
-        <h3>Design &amp; Quote</h3>
+        <h3>Design &amp; Itemized Quotation</h3>
         <p>3D designs and an itemized quotation, revised with you until the plan and the number both fit.</p>
       </div>
       <div class="process-step card reveal">
         <span class="process-num">3</span>
-        <h3>Production</h3>
+        <h3>Execution</h3>
         <p>Built with factory support from Seasun Group, in moisture and termite-resistant materials.</p>
       </div>
       <div class="process-step card reveal">
         <span class="process-num">4</span>
-        <h3>Installation</h3>
+        <h3>Handover</h3>
         <p>Site-managed installation and handover, typically six to ten weeks from sign-off.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="gallery">
-  <div class="wrap">
-    <div class="gallery-head">
-      <div class="reveal" style="max-width:560px;display:flex;flex-direction:column;gap:12px;">
-        <span class="eyebrow">Recent work</span>
-        <h2>Homes we have finished across Bangalore</h2>
-      </div>
-      <a href="#lead" class="btn btn-onphoto btn-md">Book Free Consultation</a>
-    </div>
-    <div class="gallery-grid">
-      <div class="gallery-item reveal"><img src="images/bedroom-warm.jpg" alt="Beige master bedroom with mural wall and pendant lights"></div>
-      <div class="gallery-item reveal"><img src="images/kitchen-dark.jpg" alt="Graphite modular kitchen with fluted island and brass pendants"></div>
-      <div class="gallery-item reveal"><img src="images/kids.jpg" alt="Kids bedroom with arched storage, study desk and swing"></div>
-      <div class="gallery-item reveal"><img src="images/bedroom-earthy.jpg" alt="Earthy bedroom with block-print upholstered headboard wall"></div>
-      <div class="gallery-item reveal"><img src="images/balcony.jpg" alt="Balcony seating with deck flooring and planters"></div>
-      <div class="gallery-item reveal"><img src="images/dresser.jpg" alt="Fluted panel dresser unit with backlit mirror"></div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <div class="section-heading center reveal" style="margin-bottom:clamp(30px,4vw,48px);max-width:560px;">
-      <span class="eyebrow">Reviews</span>
-      <h2>What Bangalore homeowners say</h2>
-    </div>
-    <div class="testimonial-grid">
-      <div class="testimonial card reveal">
-        <span class="stars">★★★★★</span>
-        <blockquote>"Metaspaces did an amazing job designing our home interiors! They really understood our style and needs, and the final result was exactly what we wanted."</blockquote>
-        <span class="who"><strong>Manu Abraham</strong> · Home interiors · Google review</span>
-      </div>
-      <div class="testimonial card reveal">
-        <span class="stars">★★★★★</span>
-        <blockquote>"I recently worked with Metaspaces on designing my home interiors, and it was a truly enjoyable experience. I was aiming for an elegant and simple aesthetic, and the team delivered beautifully."</blockquote>
-        <span class="who"><strong>Karthika Harindran</strong> · Home interiors · Google review</span>
-      </div>
-      <div class="testimonial card reveal">
-        <span class="stars">★★★★★</span>
-        <blockquote>"We absolutely loved the quality of work and professionalism that they carried. They were very accommodative to whatever we had to say."</blockquote>
-        <span class="who"><strong>Deepa T P</strong> · Local Guide · Google review</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-inset">
-  <div class="wrap">
-    <div class="section-heading reveal" style="margin-bottom:clamp(30px,4vw,48px);max-width:640px;">
-      <span class="eyebrow">Indicative pricing</span>
-      <h2>Real price bands, before you ever meet us</h2>
-      <p class="lede">Final pricing depends on scope and material selection — every quote is itemized and free.</p>
-    </div>
-    <div class="pricing-grid">
-      <div class="price-card card reveal">
-        <span class="tag">2BHK Interiors</span>
-        <strong class="amount">₹4 Lakh</strong>
-        <span class="range">starting, up to ₹8 Lakh+ premium</span>
-        <p>Essential package through to a full premium finish, depending on scope.</p>
-      </div>
-      <div class="price-card card reveal">
-        <span class="tag">3BHK Interiors</span>
-        <strong class="amount">₹6 Lakh</strong>
-        <span class="range">starting, up to ₹12 Lakh+ premium</span>
-        <p>Varies by wardrobe count, kitchen size and finish grade.</p>
-      </div>
-      <div class="price-card card reveal">
-        <span class="offer-flag">Limited-period offer</span>
-        <span class="tag">Full Home Interiors</span>
-        <strong class="amount">₹3.99 Lakh*</strong>
-        <p>*Limited-period offer on full-home packages. Ask for the itemized breakdown.</p>
-      </div>
-    </div>
-    <div style="margin-top:clamp(30px,4vw,48px);">
-      <a href="#lead" class="btn btn-primary btn-lg">Get My Exact Quote</a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap faq-grid">
-    <div style="display:flex;flex-direction:column;gap:20px;">
-      <div class="section-heading reveal" style="max-width:460px;">
-        <span class="eyebrow">Questions</span>
-        <h2>Everything homeowners ask us first</h2>
-      </div>
-      <div class="faq-photo reveal"><img src="images/bedroom-luxe.jpg" alt="Premium bedroom interior with panelled walls and soft lighting"></div>
-    </div>
-    <div>
-      <details class="faq-item reveal" open>
-        <summary class="faq-q">Who is the best home interior designer in Bangalore?<span class="plus">+</span></summary>
-        <p class="faq-a">Metaspaces offers personalized consultation, transparent quotations, quality materials and end-to-end execution, backed by Seasun Group's factory support, across KR Puram, Whitefield, Hennur, Sarjapur Road, HSR Layout and every major Bangalore locality.</p>
-      </details>
-      <details class="faq-item reveal">
-        <summary class="faq-q">How much does 2BHK interior design cost in Bangalore?<span class="plus">+</span></summary>
-        <p class="faq-a">Typically ₹4 lakh for essentials up to ₹8 lakh+ for a premium full-home package, depending on scope and finish.</p>
-      </details>
-      <details class="faq-item reveal">
-        <summary class="faq-q">How much does 3BHK interior design cost in Bangalore?<span class="plus">+</span></summary>
-        <p class="faq-a">Generally starts around ₹6 lakh, up to ₹12 lakh+ for premium customized interiors.</p>
-      </details>
-      <details class="faq-item reveal">
-        <summary class="faq-q">Do you provide modular kitchen interiors?<span class="plus">+</span></summary>
-        <p class="faq-a">Yes — L-shape, U-shape, parallel and island layouts with moisture-resistant ply and premium hardware.</p>
-      </details>
-      <details class="faq-item reveal">
-        <summary class="faq-q">Do you provide free consultation?<span class="plus">+</span></summary>
-        <p class="faq-a">Yes, no-obligation, with a real design expert. We respect your privacy and will only use your details to plan your project.</p>
-      </details>
-    </div>
+<!-- Price line: config-driven, hidden entirely if MIN_PROJECT_VALUE is
+     empty (see script near top of <body>). -->
+<section class="section-inset" id="price-line-section" style="display:none;">
+  <div class="wrap" style="text-align:center;">
+    <p id="price-line-text" class="lede reveal" style="font-size:var(--fs-h4);"></p>
   </div>
 </section>
 
@@ -715,9 +591,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap">
     <div class="reveal">
       <h2>Ready to design your Bangalore home?</h2>
-      <p class="sub">Talk to a design expert — no obligation, no hidden costs.</p>
+      <p class="sub">Free design consultation — no obligation, no hidden costs.</p>
     </div>
     <div class="final-cta-actions">
+      <a href="#lead" class="btn btn-primary btn-lg">Get a Free Design Consultation</a>
       <a href="tel:+918618008947" class="cta-call">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.9 2.2z"></path></svg>
         Call 86180 08947
@@ -733,12 +610,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-brand">
-      <img src="images/mark.png" alt="" style="height:30px;width:auto;">
+      <img src="images/mark.png" alt="" width="30" height="30" loading="lazy" style="height:30px;width:auto;">
       <span>Metaspaces</span>
     </div>
     <div class="footer-links">
       <a href="tel:+918618008947">86180 08947</a>
       <a href="mailto:crm@metaspaces.in">crm@metaspaces.in</a>
+      <a href="/privacy">Privacy policy</a>
       <span>A Seasun Group company · Bangalore</span>
     </div>
   </div>
@@ -755,22 +633,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script>
 (function(){
+  // Channel A: FormSubmit (email). Channel B: Google Apps Script (Sheet).
+  // Paste the deployed Apps Script Web App URL below (see apps-script/Code.gs).
   const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/seasun.public@gmail.com';
+  const APPS_SCRIPT_URL = ''; // TODO: paste the /exec Web App URL here
 
-  const LOCALITIES = ["KR Puram","Whitefield","Hennur","Sarjapur Road","Marathahalli","HSR Layout","JP Nagar","Indiranagar","Koramangala","Electronic City","Yelahanka","Hebbal","Bellandur","Kalyan Nagar","Horamavu","Banaswadi","Thanisandra","Varthur","Bommanahalli","BTM Layout","Jayanagar","Banashankari","Rajajinagar","Devanahalli","Other locality"];
+  const FETCH_TIMEOUT_MS = 10000;
 
   const form = document.getElementById('lead-form');
   const nameEl = document.getElementById('f-name');
   const phoneEl = document.getElementById('f-phone');
-  const emailEl = document.getElementById('f-email');
-  const serviceEl = document.getElementById('f-service');
   const propertyEl = document.getElementById('f-property');
-  const localityEl = document.getElementById('f-locality');
-  const localityList = document.getElementById('locality-list');
+  const budgetEl = document.getElementById('f-budget');
+  const timelineEl = document.getElementById('f-timeline');
+  const honeyEl = document.getElementById('f-honey');
   const submitBtn = document.getElementById('lead-submit');
   const phoneErrorEl = document.getElementById('phone-error');
-
-  let locality = '';
+  const submitErrorEl = document.getElementById('submit-error');
+  const submitErrorActionsEl = document.getElementById('submit-error-actions');
 
   function isValidPhone(v){
     return /^[6-9][0-9]{9}$/.test(v);
@@ -785,111 +665,148 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     phoneErrorEl.style.display = (digitsOnly.length === 10 && !isValidPhone(digitsOnly)) ? 'block' : 'none';
   });
 
-  function renderLocalityList(query){
-    const q = query.trim().toLowerCase();
-    const matches = q ? LOCALITIES.filter(l => l.toLowerCase().includes(q)) : LOCALITIES;
-    if (!matches.length){ localityList.classList.remove('open'); localityList.innerHTML=''; return; }
-    localityList.innerHTML = matches.map(l => `<button type="button" data-locality="${l}">${l}</button>`).join('');
-    localityList.classList.add('open');
-  }
-
-  localityEl.addEventListener('focus', () => renderLocalityList(localityEl.value));
-  localityEl.addEventListener('input', () => { locality = ''; renderLocalityList(localityEl.value); checkValid(); });
-  localityList.addEventListener('click', (e) => {
-    const btn = e.target.closest('button[data-locality]');
-    if (!btn) return;
-    locality = btn.getAttribute('data-locality');
-    localityEl.value = locality;
-    localityList.classList.remove('open');
-    checkValid();
-  });
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.autocomplete')) localityList.classList.remove('open');
-  });
-
-  function isValidEmail(v){
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
-  }
-
   function checkValid(){
     const phoneOk = isValidPhone(phoneEl.value);
-    const emailOk = isValidEmail(emailEl.value);
-    const ok = nameEl.value.trim().length > 1 && phoneOk && emailOk && !!serviceEl.value && !!propertyEl.value && !!locality;
+    const ok = nameEl.value.trim().length > 1 && phoneOk && !!propertyEl.value && !!budgetEl.value && !!timelineEl.value;
     submitBtn.disabled = !ok;
     return ok;
   }
 
-  [nameEl, phoneEl, emailEl, serviceEl, propertyEl].forEach(el => el.addEventListener('input', checkValid));
-  [serviceEl, propertyEl].forEach(el => el.addEventListener('change', checkValid));
+  [nameEl, phoneEl].forEach(el => el.addEventListener('input', checkValid));
+  [propertyEl, budgetEl, timelineEl].forEach(el => el.addEventListener('change', checkValid));
 
-  const submitErrorEl = document.getElementById('submit-error');
+  function makeLeadId(){
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+      return window.crypto.randomUUID();
+    }
+    return 'lead-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+  }
+
+  function istTimestamp(){
+    const now = new Date();
+    const ist = new Date(now.getTime() + (5.5 * 60 + now.getTimezoneOffset()) * 60000);
+    const pad = n => String(n).padStart(2, '0');
+    return ist.getFullYear() + '-' + pad(ist.getMonth() + 1) + '-' + pad(ist.getDate()) +
+      'T' + pad(ist.getHours()) + ':' + pad(ist.getMinutes()) + ':' + pad(ist.getSeconds()) + '+05:30';
+  }
+
+  function fetchWithTimeout(url, options){
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+    return fetch(url, Object.assign({}, options, { signal: controller.signal }))
+      .finally(() => clearTimeout(timeoutId));
+  }
+
+  async function sendToFormSubmit(payload){
+    const response = await fetchWithTimeout(FORMSUBMIT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'New Metaspaces lead',
+        _template: 'table',
+        _captcha: 'false',
+        name: payload.name,
+        phone: payload.phone,
+        property_type: payload.property_type,
+        budget: payload.budget,
+        timeline: payload.timeline,
+        gclid: payload.gclid || '',
+        gbraid: payload.gbraid || '',
+        wbraid: payload.wbraid || '',
+        utm_campaign: payload.utm_campaign || '',
+        utm_term: payload.utm_term || '',
+        landing_url: payload.landing_url,
+        submitted_at: payload.submitted_at,
+        lead_id: payload.lead_id
+      })
+    });
+    if (!response.ok) throw new Error('FormSubmit HTTP ' + response.status);
+    const result = await response.json(); // a non-JSON body throws here -> counts as failure
+    if (result.success !== true && result.success !== 'true') {
+      throw new Error('FormSubmit did not confirm: ' + (result.message || 'unknown'));
+    }
+  }
+
+  async function sendToSheet(payload){
+    if (!APPS_SCRIPT_URL) throw new Error('Apps Script URL not configured');
+    const response = await fetchWithTimeout(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // avoids a CORS preflight
+      redirect: 'follow',
+      body: JSON.stringify(payload)
+    });
+    const result = await response.json();
+    if (result.success !== true) {
+      throw new Error('Sheet did not confirm: ' + (result.error || 'unknown'));
+    }
+  }
+
+  let isSubmitting = false;
 
   form.addEventListener('submit', async function(e){
     e.preventDefault();
-    if (!checkValid()) return;
+    if (isSubmitting || !checkValid()) return;
+
+    // Honeypot: a bot filled a field real visitors never see. Pretend
+    // success without actually sending anything, so it doesn't learn.
+    if (honeyEl.value) {
+      document.getElementById('lead-form-view').style.display = 'none';
+      document.getElementById('lead-done-view').style.display = 'flex';
+      return;
+    }
 
     let adTracking = {};
     try { adTracking = JSON.parse(localStorage.getItem('ms_ad_tracking') || '{}'); } catch (err) { adTracking = {}; }
 
-    const leadData = {
+    const payload = {
       name: nameEl.value.trim(),
       phone: phoneEl.value.trim(),
-      email: emailEl.value.trim() || null,
-      service: serviceEl.value,
       property_type: propertyEl.value,
-      locality: locality,
-      gclid: adTracking.gclid || null,
-      gbraid: adTracking.gbraid || null,
-      wbraid: adTracking.wbraid || null,
-      utm_campaign: adTracking.utm_campaign || null,
-      utm_term: adTracking.utm_term || null,
-      landing_url: window.location.href
+      budget: budgetEl.value,
+      timeline: timelineEl.value,
+      gclid: adTracking.gclid || '',
+      gbraid: adTracking.gbraid || '',
+      wbraid: adTracking.wbraid || '',
+      utm_campaign: adTracking.utm_campaign || '',
+      utm_term: adTracking.utm_term || '',
+      landing_url: window.location.href,
+      submitted_at: istTimestamp(),
+      lead_id: makeLeadId(),
+      _honey: ''
     };
 
+    isSubmitting = true;
     submitErrorEl.style.display = 'none';
+    submitErrorActionsEl.style.display = 'none';
     submitBtn.disabled = true;
+    const originalLabel = submitBtn.textContent;
+    submitBtn.textContent = 'Sending…';
 
-    try {
-      const response = await fetch(FORMSUBMIT_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          _subject: 'New lead: ' + leadData.name + ' — ' + leadData.service,
-          _template: 'table',
-          _captcha: 'false',
-          Name: leadData.name,
-          Phone: leadData.phone,
-          Email: leadData.email || '',
-          Service: leadData.service,
-          'Property Type': leadData.property_type,
-          Locality: leadData.locality,
-          GCLID: leadData.gclid || '',
-          GBRAID: leadData.gbraid || '',
-          WBRAID: leadData.wbraid || '',
-          'UTM Campaign': leadData.utm_campaign || '',
-          'UTM Term': leadData.utm_term || '',
-          'Landing URL': leadData.landing_url
-        })
-      });
+    const [emailResult, sheetResult] = await Promise.allSettled([
+      sendToFormSubmit(payload),
+      sendToSheet(payload)
+    ]);
 
-      if (!response.ok) throw new Error('FormSubmit responded with ' + response.status);
+    const emailOk = emailResult.status === 'fulfilled';
+    const sheetOk = sheetResult.status === 'fulfilled';
+    isSubmitting = false;
 
-      const result = await response.json();
-      if (String(result.success) !== 'true') {
-        throw new Error('FormSubmit did not confirm delivery: ' + (result.message || 'unknown reason'));
-      }
-    } catch (err) {
-      console.error('Lead email submission failed:', err);
-      submitErrorEl.style.display = 'block';
+    if (!emailOk && !sheetOk) {
+      console.error('Lead submission failed on both channels', { email: emailResult.status, sheet: sheetResult.status });
+      submitBtn.textContent = originalLabel;
       submitBtn.disabled = false;
+      submitErrorEl.style.display = 'block';
+      submitErrorActionsEl.style.display = 'flex';
       return;
     }
+
+    submitBtn.textContent = originalLabel;
 
     document.getElementById('lead-form-view').style.display = 'none';
     const doneView = document.getElementById('lead-done-view');
     doneView.style.display = 'flex';
     document.getElementById('done-summary').textContent =
-      [serviceEl.value, propertyEl.value, locality].filter(Boolean).join(' · ') + (nameEl.value ? ' — ' + nameEl.value : '');
+      [propertyEl.value, budgetEl.value, timelineEl.value].filter(Boolean).join(' · ') + (nameEl.value ? ' — ' + nameEl.value : '');
 
     try {
       const url = new URL(window.location.href);
@@ -1092,6 +1009,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var location = getClickLocation(el);
     armConfirmation(eventName, location);
   }, true);
+})();
+</script>
+
+<script>
+(function(){
+  function starString(rating){
+    var full = Math.max(0, Math.min(5, Math.round(Number(rating) || 0)));
+    return '★★★★★'.slice(0, full) + '☆☆☆☆☆'.slice(0, 5 - full);
+  }
+
+  // Testimonials
+  var grid = document.getElementById('testimonial-grid');
+  var section = document.getElementById('testimonials-section');
+  if (grid && section && Array.isArray(window.TESTIMONIALS) && window.TESTIMONIALS.length) {
+    grid.innerHTML = window.TESTIMONIALS.map(function(t, i){
+      var meta = 'Google review' + (t.date ? ' · ' + t.date : '');
+      return '<div class="testimonial card reveal">' +
+        '<span class="stars">' + starString(t.rating) + '</span>' +
+        '<blockquote>"' + t.text + '"</blockquote>' +
+        '<span class="who"><strong>' + t.name + '</strong> · ' + meta + '</span>' +
+        '</div>';
+    }).join('');
+    section.style.display = '';
+
+    // Stagger the newly-injected cards and observe them, matching the
+    // behaviour the other grids already got at page load.
+    var revealEls = grid.querySelectorAll('.reveal');
+    revealEls.forEach(function(el, i){ el.style.transitionDelay = Math.min(i * 90, 360) + 'ms'; });
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) { entry.target.classList.add('is-visible'); obs.unobserve(entry.target); }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function(el){ obs.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+    }
+  }
+
+  var ratingLine = document.getElementById('google-rating-line');
+  if (ratingLine && window.GOOGLE_RATING && window.GOOGLE_REVIEW_COUNT) {
+    ratingLine.textContent = window.GOOGLE_RATING + ' out of 5, based on ' + window.GOOGLE_REVIEW_COUNT + ' Google reviews';
+    ratingLine.style.display = '';
+  }
+
+  // Price line
+  var priceSection = document.getElementById('price-line-section');
+  var priceText = document.getElementById('price-line-text');
+  if (priceSection && priceText && window.MIN_PROJECT_VALUE) {
+    priceText.textContent = 'Projects typically start from ₹' + window.MIN_PROJECT_VALUE;
+    priceSection.style.display = '';
+  }
 })();
 </script>
 

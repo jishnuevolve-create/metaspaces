@@ -3,3 +3,4 @@
 RewriteEngine On
 RewriteBase /
 RewriteRule ^thank-you/?$ index.html [L]
+RewriteRule ^privacy/?$ privacy.html [L]
