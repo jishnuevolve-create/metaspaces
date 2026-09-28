@@ -753,12 +753,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </a>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 (function(){
-  const SUPABASE_URL = 'https://suoxolhuntmefbuxqyhd.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_FHEhh415UzMys7fmoozA1g_ZvjW1Dmo';
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/seasun.public@gmail.com';
 
   const LOCALITIES = ["KR Puram","Whitefield","Hennur","Sarjapur Road","Marathahalli","HSR Layout","JP Nagar","Indiranagar","Koramangala","Electronic City","Yelahanka","Hebbal","Bellandur","Kalyan Nagar","Horamavu","Banaswadi","Thanisandra","Varthur","Bommanahalli","BTM Layout","Jayanagar","Banashankari","Rajajinagar","Devanahalli","Other locality"];
 
@@ -852,18 +849,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     submitErrorEl.style.display = 'none';
     submitBtn.disabled = true;
 
-    const { error } = await supabase.from('leads').insert(leadData);
+    try {
+      const response = await fetch(FORMSUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: 'New lead: ' + leadData.name + ' — ' + leadData.service,
+          _template: 'table',
+          _captcha: 'false',
+          Name: leadData.name,
+          Phone: leadData.phone,
+          Email: leadData.email || '',
+          Service: leadData.service,
+          'Property Type': leadData.property_type,
+          Locality: leadData.locality,
+          GCLID: leadData.gclid || '',
+          GBRAID: leadData.gbraid || '',
+          WBRAID: leadData.wbraid || '',
+          'UTM Campaign': leadData.utm_campaign || '',
+          'UTM Term': leadData.utm_term || '',
+          'Landing URL': leadData.landing_url
+        })
+      });
 
-    if (error) {
-      console.error('Lead insert failed:', error);
+      if (!response.ok) throw new Error('FormSubmit responded with ' + response.status);
+
+      const result = await response.json();
+      if (String(result.success) !== 'true') {
+        throw new Error('FormSubmit did not confirm delivery: ' + (result.message || 'unknown reason'));
+      }
+    } catch (err) {
+      console.error('Lead email submission failed:', err);
       submitErrorEl.style.display = 'block';
       submitBtn.disabled = false;
       return;
     }
-
-    supabase.functions.invoke('send-lead-email', { body: leadData }).then(({ error }) => {
-      if (error) console.error('Lead email notification failed:', error);
-    });
 
     document.getElementById('lead-form-view').style.display = 'none';
     const doneView = document.getElementById('lead-done-view');
