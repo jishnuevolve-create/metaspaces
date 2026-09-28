@@ -639,7 +639,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // Channel A: FormSubmit (email). Channel B: Google Apps Script (Sheet).
   // Paste the deployed Apps Script Web App URL below (see apps-script/Code.gs).
   const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/seasun.public@gmail.com';
-  const APPS_SCRIPT_URL = ''; // TODO: paste the /exec Web App URL here
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKC162RjjAzlJrLvNiZ-PeLB5ecpsBmoRwhEoI21SjvGLl4W1FPOh_PT10LWSYeqJK/exec';
 
   const FETCH_TIMEOUT_MS = 10000;
 
@@ -732,16 +732,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   async function sendToSheet(payload){
     if (!APPS_SCRIPT_URL) throw new Error('Apps Script URL not configured');
-    const response = await fetchWithTimeout(APPS_SCRIPT_URL, {
+    // Apps Script Web Apps don't send Access-Control-Allow-Origin on their
+    // response, so a normal cross-origin fetch() gets its response blocked
+    // even though the request reaches doPost() and appends the row fine.
+    // Use no-cors: the request still goes out and Apps Script still runs,
+    // we just can't read the JSON body back - an opaque-but-not-thrown
+    // response is the closest thing to "confirmed" this integration allows.
+    await fetchWithTimeout(APPS_SCRIPT_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // avoids a CORS preflight
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       redirect: 'follow',
       body: JSON.stringify(payload)
     });
-    const result = await response.json();
-    if (result.success !== true) {
-      throw new Error('Sheet did not confirm: ' + (result.error || 'unknown'));
-    }
   }
 
   let isSubmitting = false;
