@@ -636,8 +636,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script>
 (function(){
-  // Channel A: FormSubmit (email). Channel B: Google Apps Script (Sheet).
-  // Paste the deployed Apps Script Web App URL below (see apps-script/Code.gs).
+  // Both channels below email the lead to seasun.public@gmail.com via two
+  // independent paths, so one working is enough to deliver it:
+  // Channel A: FormSubmit.co (third-party email relay).
+  // Channel B: Google Apps Script running MailApp.sendEmail (Google's own
+  // mail infra, no third party) - see apps-script/Code.gs.
   const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/seasun.public@gmail.com';
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKC162RjjAzlJrLvNiZ-PeLB5ecpsBmoRwhEoI21SjvGLl4W1FPOh_PT10LWSYeqJK/exec';
 
@@ -730,11 +733,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
   }
 
-  async function sendToSheet(payload){
+  async function sendToAppsScriptEmail(payload){
     if (!APPS_SCRIPT_URL) throw new Error('Apps Script URL not configured');
     // Apps Script Web Apps don't send Access-Control-Allow-Origin on their
     // response, so a normal cross-origin fetch() gets its response blocked
-    // even though the request reaches doPost() and appends the row fine.
+    // even though the request reaches doPost() and sends the email fine.
     // Use no-cors: the request still goes out and Apps Script still runs,
     // we just can't read the JSON body back - an opaque-but-not-thrown
     // response is the closest thing to "confirmed" this integration allows.
@@ -788,17 +791,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const originalLabel = submitBtn.textContent;
     submitBtn.textContent = 'Sending…';
 
-    const [emailResult, sheetResult] = await Promise.allSettled([
+    const [formSubmitResult, appsScriptResult] = await Promise.allSettled([
       sendToFormSubmit(payload),
-      sendToSheet(payload)
+      sendToAppsScriptEmail(payload)
     ]);
 
-    const emailOk = emailResult.status === 'fulfilled';
-    const sheetOk = sheetResult.status === 'fulfilled';
+    const formSubmitOk = formSubmitResult.status === 'fulfilled';
+    const appsScriptOk = appsScriptResult.status === 'fulfilled';
     isSubmitting = false;
 
-    if (!emailOk && !sheetOk) {
-      console.error('Lead submission failed on both channels', { email: emailResult.status, sheet: sheetResult.status });
+    if (!formSubmitOk && !appsScriptOk) {
+      console.error('Lead email failed on both channels', { formSubmit: formSubmitResult.status, appsScript: appsScriptResult.status });
       submitBtn.textContent = originalLabel;
       submitBtn.disabled = false;
       submitErrorEl.style.display = 'block';
