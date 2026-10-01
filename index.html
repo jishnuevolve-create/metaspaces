@@ -638,11 +638,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 (function(){
   // Both channels below email the lead to seasun.public@gmail.com via two
   // independent paths, so one working is enough to deliver it:
-  // Channel A: FormSubmit.co (third-party email relay).
-  // Channel B: Google Apps Script running MailApp.sendEmail (Google's own
-  // mail infra, no third party) - see apps-script/Code.gs.
+  // Channel A: Web3Forms (primary - reliable, returns a real confirmable
+  // JSON response unlike the alternatives tried before it).
+  // Channel B: FormSubmit.co (secondary/backup third-party relay).
+  const WEB3FORMS_ACCESS_KEY = 'b08863c2-2da7-4448-bc8b-a9814fa30a85';
   const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/seasun.public@gmail.com';
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKC162RjjAzlJrLvNiZ-PeLB5ecpsBmoRwhEoI21SjvGLl4W1FPOh_PT10LWSYeqJK/exec';
 
   const FETCH_TIMEOUT_MS = 10000;
 
@@ -733,21 +733,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
   }
 
-  async function sendToAppsScriptEmail(payload){
-    if (!APPS_SCRIPT_URL) throw new Error('Apps Script URL not configured');
-    // Apps Script Web Apps don't send Access-Control-Allow-Origin on their
-    // response, so a normal cross-origin fetch() gets its response blocked
-    // even though the request reaches doPost() and sends the email fine.
-    // Use no-cors: the request still goes out and Apps Script still runs,
-    // we just can't read the JSON body back - an opaque-but-not-thrown
-    // response is the closest thing to "confirmed" this integration allows.
-    await fetchWithTimeout(APPS_SCRIPT_URL, {
+  async function sendToWeb3Forms(payload){
+    const response = await fetchWithTimeout('https://api.web3forms.com/submit', {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      redirect: 'follow',
-      body: JSON.stringify(payload)
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_ACCESS_KEY,
+        subject: 'New Metaspaces lead: ' + payload.name,
+        name: payload.name,
+        phone: payload.phone,
+        property_type: payload.property_type,
+        budget: payload.budget,
+        timeline: payload.timeline,
+        gclid: payload.gclid || '',
+        gbraid: payload.gbraid || '',
+        wbraid: payload.wbraid || '',
+        utm_campaign: payload.utm_campaign || '',
+        utm_term: payload.utm_term || '',
+        landing_url: payload.landing_url,
+        submitted_at: payload.submitted_at,
+        lead_id: payload.lead_id,
+        botcheck: payload._honey || ''
+      })
     });
+    const result = await response.json();
+    if (!response.ok || result.success !== true) {
+      throw new Error('Web3Forms did not confirm: ' + (result.message || 'unknown'));
+    }
   }
 
   let isSubmitting = false;
@@ -791,17 +803,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const originalLabel = submitBtn.textContent;
     submitBtn.textContent = 'Sending…';
 
-    const [formSubmitResult, appsScriptResult] = await Promise.allSettled([
-      sendToFormSubmit(payload),
-      sendToAppsScriptEmail(payload)
+    const [web3FormsResult, formSubmitResult] = await Promise.allSettled([
+      sendToWeb3Forms(payload),
+      sendToFormSubmit(payload)
     ]);
 
+    const web3FormsOk = web3FormsResult.status === 'fulfilled';
     const formSubmitOk = formSubmitResult.status === 'fulfilled';
-    const appsScriptOk = appsScriptResult.status === 'fulfilled';
     isSubmitting = false;
 
-    if (!formSubmitOk && !appsScriptOk) {
-      console.error('Lead email failed on both channels', { formSubmit: formSubmitResult.status, appsScript: appsScriptResult.status });
+    if (!web3FormsOk && !formSubmitOk) {
+      console.error('Lead email failed on both channels', { web3Forms: web3FormsResult.status, formSubmit: formSubmitResult.status });
       submitBtn.textContent = originalLabel;
       submitBtn.disabled = false;
       submitErrorEl.style.display = 'block';
